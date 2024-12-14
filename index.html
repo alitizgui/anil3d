@@ -100,20 +100,20 @@
 
   <script>
     function handleFormSubmit(event) {
-      event.preventDefault(); // Empêche la soumission classique du formulaire
+      event.preventDefault(); // Empêche la soumission classique du formulaire pour gérer la confirmation
 
-      // Récupération des données
+      // Récupération des données du formulaire
       const form = event.target;
       const formData = new FormData(form);
 
-      // Envoi des données à Netlify Forms
+      // Envoi des données à Netlify Forms (l'envoi classique via l'attribut 'data-netlify')
       fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
       })
       .then(() => {
-        // Afficher le message de confirmation
+        // Afficher le message de confirmation après l'envoi
         document.getElementById('confirmation-message').style.display = 'block';
 
         // Optionnel : Réinitialiser le formulaire
