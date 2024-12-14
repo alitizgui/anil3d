@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <title>Carte 3D</title>
+  <link rel="stylesheet" href="Qgis2threejs.css">
+  <style>
+    #view { height: 100vh; }
+  </style>
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="Qgis2threejs.js"></script>
+</head>
+<body>
+
+  <div id="view"></div>
+
+  <script>
+    // Code pour initialiser la carte 3D
+    Q3D.Config.allVisible = true;
+    Q3D.Config.viewpoint = { lookAt: { x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938 }, pos: { x: 496021.26971992507, y: 3291540.6997546116, z: 1316.5565223819008 } };
+    Q3D.Config.localMode = true;
+
+    var container = document.getElementById("view"),
+        app = Q3D.application;
+
+    app.init(container); // initialize viewer
+
+    // load the scene
+    app.loadSceneFile("data/Anil3d/scene.js", function (scene) {
+      app.start(); // start rendering
+    });
+  </script>
+
+</body>
+</html>
