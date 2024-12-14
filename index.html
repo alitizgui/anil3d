@@ -24,7 +24,7 @@
 
   <div id="form-container">
     <h2>Inscription pour accéder à la carte 3D</h2>
-    <form id="registrationForm">
+    <form name="inscription" method="POST" data-netlify="true" id="registrationForm">
       <label for="nom">Nom :</label>
       <input type="text" id="nom" name="nom" required><br><br>
 
@@ -43,24 +43,24 @@
 
   <script>
     document.getElementById('registrationForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Empêche le formulaire de soumettre normalement
+      event.preventDefault(); // Empêche le rechargement par défaut
 
-      // Récupère les données du formulaire
-      var nom = document.getElementById('nom').value;
-      var prenom = document.getElementById('prenom').value;
-      var email = document.getElementById('email').value;
-      var telephone = document.getElementById('telephone').value;
+      // Effectue la soumission manuelle à Netlify
+      var form = event.target;
 
-      // Si tous les champs sont remplis, on redirige vers la page de la carte
-      if (nom && prenom && email && telephone) {
-        // Envoi des données de formulaire à Netlify (si nécessaire)
-        // Ajouter la logique pour envoyer le formulaire à Netlify Forms ici si nécessaire
-
-        // Redirige vers la carte (page carte.html)
-        window.location.href = "/carte.html"; 
-      } else {
-        alert('Veuillez remplir tous les champs.');
-      }
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      })
+      .then(function() {
+        // Redirige vers la page de la carte si la soumission réussit
+        window.location.href = '/carte.html';
+      })
+      .catch(function(error) {
+        console.error('Erreur lors de la soumission du formulaire', error);
+        alert('Une erreur est survenue. Veuillez réessayer.');
+      });
     });
   </script>
 
