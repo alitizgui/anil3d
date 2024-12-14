@@ -65,6 +65,12 @@
       font-weight: 400;
       margin-bottom: 5px;
     }
+
+    #confirmation-message {
+      display: none;
+      font-size: 18px;
+      color: green;
+    }
   </style>
 </head>
 <body>
@@ -86,6 +92,10 @@
 
       <button type="submit">S'inscrire</button>
     </form>
+
+    <p id="confirmation-message">
+      Votre inscription a bien été reçue. Vous serez contacté pour l'accès à la carte 3D après validation.
+    </p>
   </div>
 
   <script>
@@ -103,8 +113,11 @@
         body: new URLSearchParams(formData).toString()
       })
       .then(() => {
-        // Redirection vers la carte si l'enregistrement réussit
-        window.location.href = '/carte.html';
+        // Afficher le message de confirmation
+        document.getElementById('confirmation-message').style.display = 'block';
+
+        // Optionnel : Réinitialiser le formulaire
+        form.reset();
       })
       .catch((error) => {
         console.error('Erreur lors de la soumission du formulaire :', error);
