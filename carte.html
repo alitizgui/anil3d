@@ -2,24 +2,24 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Ayda Maps Interactive ANIL 3D</title>
+  <title>Anil3d</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <base target="_blank">
+  <!-- Mettre les liens relatifs corrects -->
   <link rel="stylesheet" type="text/css" href="/Qgis2threejs.css">
   <style type="text/css">
     #popup, #header, #layerpanel {
       left: 36px;
     }
-
-    /* Style pour le titre intégré à la carte */
-    #map-title {
+    #footer-title {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      font-family: "Comic Sans MS", cursive, sans-serif; /* Exemple de police manuscrite */
+      font-family: 'Cursive', sans-serif;
       font-size: 12px;
       color: black;
-      pointer-events: none; /* Ne pas interférer avec les interactions de la carte */
+      opacity: 0.8; /* Rend le texte discret */
+      pointer-events: none; /* Évite toute interaction avec l'utilisateur */
     }
   </style>
   <script src="/threejs/three.min.js"></script>
@@ -28,68 +28,38 @@
   <script src="/Qgis2threejs.js"></script>
 </head>
 <body>
-  <!-- Conteneur de la carte -->
   <div id="view">
     <div id="northarrow"></div>
     <div id="navigation"></div>
-    <!-- Titre intégré à la carte -->
-    <div id="map-title">Ayda Maps Interactive ANIL 3D</div>
   </div>
+
+  <!-- Titre intégré au décor -->
+  <div id="footer-title">Ayda Maps 3D Interactive</div>
 
   <!-- popup -->
   <div id="popup">
     <div id="closebtn">&times;</div>
-    <div id="popupbar"></div>
-    <div id="popupbody">
-      <div id="popupcontent"></div>
-
-      <!-- query result -->
-      <div id="queryresult">
-        <table id="qr_coords_table">
-          <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_coords"></td></tr>
-        </table>
-
-        <table id="qr_layername_table">
-          <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_layername"></td></tr>
-        </table>
-
-        <table id="qr_attrs_table">
-          <caption>Attributes</caption>
-        </table>
-
-        <!-- camera actions and measure tool -->
-        <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
-        <div id="measurebtn" class="action-btn">Measure distance</div>
-      </div>
-    </div>
+    <h2>Informations sur la Carte</h2>
+    <ul>
+      <li><strong>Projection :</strong> UTM Zone 31N</li>
+      <li><strong>Échelle :</strong> 1:5000</li>
+      <li><strong>Altitude moyenne :</strong> 1200 m</li>
+      <li><strong>Couches chargées :</strong> 
+        <ul>
+          <li>Bâtiments</li>
+          <li>Routes</li>
+          <li>Relief</li>
+        </ul>
+      </li>
+      <li><strong>Auteur :</strong> Anil3D Maps</li>
+    </ul>
   </div>
+
+  <!-- icône info -->
+  <div id="infobtn">i</div>
 
   <!-- progress bar -->
   <div id="progress"><div id="progressbar"></div></div>
-
-  <!-- menu -->
-  <div id="toolbtns">
-    <div id="layerbtn"></div>
-    <div id="animbtn" class="hidden"></div>
-    <div id="infobtn"></div>
-  </div>
-
-  <!-- header and footer -->
-  <div id="header"></div>
-  <div id="footer"></div>
-
-  <!-- layer panel -->
-  <div id="layerpanel">
-    <div id="layerlist"></div>
-  </div>
-
-  <!-- animation -->
-  <div id="narrativebox" class="ef1">
-    <div id="narbody"></div>
-    <div id="nextbtn"></div>
-  </div>
 
   <script>
     Q3D.Config.allVisible = true;
@@ -103,14 +73,13 @@
         app = Q3D.application,
         gui = Q3D.gui;
 
-    app.init(container); // initialize viewer
+    app.init(container); // Initialisation du viewer
 
-    // load the scene
+    // Charger la scène
     app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
-      // scene file has been loaded
       app.start();
     }, function (scene) {
-      // all relevant files have been loaded
+      console.log("Scene loaded successfully.");
     });
   </script>
 </body>
