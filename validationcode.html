@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validation du Code d'Accès</title>
+  <title>Validation Code d'Accès</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f0f4f8;
-      margin: 0;
     }
 
-    #validation-container {
-      background-color: #fff;
+    #form-container {
+      background: #ffffff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -25,54 +26,72 @@
       text-align: center;
     }
 
-    #validation-container input {
+    #form-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    #form-container input {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
+      font-size: 16px;
     }
 
-    #validation-container button {
+    #form-container button {
       background: #007bff;
-      color: white;
+      color: #fff;
       padding: 12px;
       width: 100%;
       border: none;
       border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
-    #validation-container button:hover {
+    #form-container button:hover {
       background: #0056b3;
     }
   </style>
 </head>
 <body>
 
-  <div id="validation-container">
-    <h2>Entrer le code d'accès</h2>
-    <div>
+  <div id="form-container">
+    <h2>Entrez votre code d'accès</h2>
+    <form name="code" onsubmit="validateCode(event)">
       <label for="code">Code d'accès</label>
-      <input type="text" id="code" placeholder="Entrez le code d'accès" required>
-    </div>
-    <button onclick="validateCode()">Valider</button>
-    <p id="error-message" style="color: red;"></p>
+      <input type="text" id="code" name="code" placeholder="Entrez le code d'accès du jour" required>
+
+      <button type="submit">Valider</button>
+    </form>
   </div>
 
   <script>
-    function validateCode() {
-      const userCode = document.getElementById('code').value.trim().toLowerCase();
-      const currentDay = new Date().getDay();  // Récupère le jour de la semaine (0 = dimanche, 1 = lundi, etc.)
-      const codes = ['dim7', 'lun1', 'mar2', 'mer3', 'jeu4', 'ven5', 'sam6'];
-      const correctCode = codes[currentDay];  // Code correct pour le jour actuel
+    function validateCode(event) {
+      event.preventDefault(); // Empêche la soumission classique du formulaire
 
-      if (userCode === correctCode) {
-        // Si le code est correct, rediriger vers la carte
-        window.location.href = '/carte.html';
+      const code = document.getElementById('code').value.trim().toLowerCase();
+      const dayCodes = {
+        lundi: 'lun1',
+        mardi: 'mar2',
+        mercredi: 'mer3',
+        jeudi: 'jeu4',
+        vendredi: 'ven5',
+        samedi: 'sam6',
+        dimanche: 'dim7'
+      };
+
+      const today = new Date().toLocaleString('fr-FR', { weekday: 'long' }).toLowerCase();
+      const correctCode = dayCodes[today];
+
+      if (code === correctCode) {
+        window.location.href = 'carte.html'; // Redirection vers la carte si le code est correct
       } else {
-        // Afficher un message d'erreur si le code est incorrect
-        document.getElementById('error-message').textContent = "Le code d'accès est incorrect. Essayez à nouveau.";
+        alert('Code incorrect. Veuillez réessayer.');
       }
     }
   </script>

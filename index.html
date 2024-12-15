@@ -4,20 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulaire d'Inscription</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* Style du formulaire */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f0f4f8;
-      margin: 0;
     }
 
     #form-container {
-      background-color: #fff;
+      background: #ffffff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -26,26 +27,43 @@
       text-align: center;
     }
 
+    #form-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+
     #form-container input {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
+      font-size: 16px;
     }
 
     #form-container button {
       background: #007bff;
-      color: white;
+      color: #fff;
       padding: 12px;
       width: 100%;
       border: none;
       border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     #form-container button:hover {
       background: #0056b3;
+    }
+
+    #form-container label {
+      display: block;
+      text-align: left;
+      color: #555;
+      font-weight: 400;
+      margin-bottom: 5px;
     }
   </style>
 </head>
@@ -53,22 +71,47 @@
 
   <div id="form-container">
     <h2>Inscription pour accéder à la carte 3D</h2>
-    <form id="registration-form">
-      <input type="text" id="nom" placeholder="Nom" required>
-      <input type="text" id="prenom" placeholder="Prénom" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="tel" id="telephone" placeholder="Téléphone" required>
+    <form name="inscription" method="POST" data-netlify="true" onsubmit="handleFormSubmit(event)">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
+
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
+
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
+
       <button type="submit">S'inscrire</button>
     </form>
   </div>
 
   <script>
-    document.getElementById("registration-form").addEventListener("submit", function(event) {
-      event.preventDefault();  // Empêche la soumission classique du formulaire
+    // Fonction pour gérer la soumission du formulaire
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Empêche la soumission classique du formulaire
 
-      // Après inscription, rediriger vers la page de code d'accès
-      window.location.href = "validate_code.html"; 
-    });
+      // Récupération des données
+      const form = event.target;
+      const formData = new FormData(form);
+
+      // Envoi des données à Netlify Forms
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(() => {
+        // Redirection vers la page de validation du code
+        window.location.href = 'validation_code.html';
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la soumission du formulaire :', error);
+        alert('Une erreur est survenue. Veuillez réessayer.');
+      });
+    }
   </script>
 
 </body>
