@@ -1,15 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Anil3d</title>
+  <title>Carte Interactive Anil 3D</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <base target="_blank">
-  <!-- Mettre les liens relatifs corrects -->
   <link rel="stylesheet" type="text/css" href="/Qgis2threejs.css">
   <style type="text/css">
-    #popup, #header, #layerpanel {
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+    }
+
+    #view {
+      width: 100%;
+      height: 100vh;
+    }
+
+    #header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #007bff;
+      color: white;
+      padding: 10px 20px;
+      font-size: 18px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    #popup, #layerpanel {
       left: 36px;
+    }
+
+    #popup {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+
+    #footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    #footer a:hover {
+      text-decoration: underline;
+    }
+
+    #instructions {
+      position: fixed;
+      bottom: 60px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #instructions h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    #instructions ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    #instructions ul li {
+      margin: 5px 0;
     }
   </style>
   <script src="/threejs/three.min.js"></script>
@@ -18,114 +93,91 @@
   <script src="/Qgis2threejs.js"></script>
 </head>
 <body>
-  <div id="view">
-    <div id="northarrow"></div>
-    <div id="navigation"></div>
-  </div>
 
-  <!-- popup -->
-  <div id="popup">
-    <div id="closebtn">&times;</div>
-    <div id="popupbar"></div>
-    <div id="popupbody">
-      <div id="popupcontent"></div>
+<div id="header">
+  Carte Interactive Anil 3D
+</div>
 
-      <!-- query result -->
-      <div id="queryresult">
-        <table id="qr_coords_table">
-          <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_coords"></td></tr>
-        </table>
+<div id="view">
+  <div id="northarrow"></div>
+  <div id="navigation"></div>
+</div>
 
-        <table id="qr_layername_table">
-          <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_layername"></td></tr>
-        </table>
+<div id="popup">
+  <div id="closebtn">&times;</div>
+  <div id="popupbar"></div>
+  <div id="popupbody">
+    <div id="popupcontent"></div>
 
-        <table id="qr_attrs_table">
-          <caption>Attributes</caption>
-        </table>
+    <!-- Query result -->
+    <div id="queryresult">
+      <table id="qr_coords_table">
+        <caption>Coordonnées cliquées</caption>
+        <tr><td id="qr_coords"></td></tr>
+      </table>
 
-        <!-- camera actions and measure tool -->
-        <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
-        <div id="measurebtn" class="action-btn">Measure distance</div>
-      </div>
+      <table id="qr_layername_table">
+        <caption>Couche</caption>
+        <tr><td id="qr_layername"></td></tr>
+      </table>
 
-      <!-- page info -->
-      <div id="pageinfo">
-        <h1>Current View URL</h1>
-        <div><input id="urlbox" type="text"></div>
+      <table id="qr_attrs_table">
+        <caption>Attributs</caption>
+      </table>
 
-        <h1>Usage</h1>
-        <table id="usage">
-          <tr><td colspan="2" class="star">Mouse</td></tr>
-          <tr><td>Left button + Move</td><td>Orbit</td></tr>
-          <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
-          <tr><td>Right button + Move</td><td>Pan</td></tr>
+      <!-- Camera actions -->
+      <div id="orbitbtn" class="action-btn action-orbit">Orbiter</div>
+      <div id="measurebtn" class="action-btn">Mesurer une distance</div>
+    </div>
 
-          <tr><td colspan="2" class="star">Keys</td></tr>
-          <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
-          <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
-          <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
-          <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
-          <tr><td>L</td><td>Toggle Label Visibility</td></tr>
-          <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
-          <tr><td>W</td><td>Wireframe Mode</td></tr>
-          <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
-          <tr><td>Shift + S</td><td>Save Image</td></tr>
-        </table>
-      </div>
+    <!-- Page info -->
+    <div id="pageinfo">
+      <h1>URL de la vue actuelle</h1>
+      <div><input id="urlbox" type="text" readonly></div>
     </div>
   </div>
+</div>
 
-  <!-- progress bar -->
-  <div id="progress"><div id="progressbar"></div></div>
+<div id="footer">
+  &copy; 2024 Carte Interactive Anil 3D. Créé avec QGIS et Three.js.
+</div>
 
-  <!-- menu -->
-  <div id="toolbtns">
-    <div id="layerbtn"></div>
-    <div id="animbtn" class="hidden"></div>
-    <div id="infobtn"></div>
-  </div>
+<div id="instructions">
+  <h3>Instructions :</h3>
+  <ul>
+    <li><strong>Zoom :</strong> Utilisez la molette de la souris</li>
+    <li><strong>Rotation :</strong> Cliquez gauche + déplacez la souris</li>
+    <li><strong>Panoramique :</strong> Cliquez droit + déplacez la souris</li>
+  </ul>
+</div>
 
-  <!-- header and footer -->
-  <div id="header"></div>
-  <div id="footer"></div>
+<script>
+Q3D.Config.allVisible = true;
+Q3D.Config.viewpoint = {
+  lookAt: { x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938 },
+  pos: { x: 496021.26971992507, y: 3291540.6997546116, z: 1316.5565223819008 }
+};
+Q3D.Config.localMode = true;
 
-  <!-- layer panel -->
-  <div id="layerpanel">
-    <div id="layerlist"></div>
-  </div>
+const container = document.getElementById("view");
+const app = Q3D.application;
 
-  <!-- animation -->
-  <div id="narrativebox" class="ef1">
-    <div id="narbody">
+function showError(message) {
+  alert("Erreur : " + message);
+}
 
-    </div>
-    <div id="nextbtn"></div>
-  </div>
+try {
+  app.init(container);
+  app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
+    app.start();
+  }, function (scene) {
+    console.log("Tous les fichiers nécessaires ont été chargés avec succès.");
+  });
+} catch (error) {
+  showError("Une erreur est survenue lors du chargement de la scène.");
+  console.error(error);
+}
+</script>
 
-  <script>
-    Q3D.Config.allVisible = true;
-    Q3D.Config.viewpoint = {
-      lookAt: {x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938},
-      pos: {x: 496021.26971992507, y: 3291540.6997546116, z: 1316.5565223819008}
-    };
-    Q3D.Config.localMode = true;
-
-    var container = document.getElementById("view"),
-        app = Q3D.application,
-        gui = Q3D.gui;
-
-    app.init(container); // initialize viewer
-
-    // load the scene
-    app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
-      // scene file has been loaded
-      app.start();
-    }, function (scene) {
-      // all relevant files have been loaded
-    });
-  </script>
 </body>
 </html>
