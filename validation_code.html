@@ -33,9 +33,9 @@
     }
 
     #form-container input {
-      width: 100%;
+      width: calc(100% - 24px);
       padding: 12px;
-      margin: 10px 0;
+      margin: 10px auto;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
@@ -45,7 +45,7 @@
       background: #007bff;
       color: #fff;
       padding: 12px;
-      width: 100%;
+      width: calc(100% - 24px);
       border: none;
       border-radius: 5px;
       font-size: 16px;
@@ -61,10 +61,10 @@
 <body>
 
   <div id="form-container">
-    <h2>Entrez votre code d'accès</h2>
+    <h2>Saisir le code reçu</h2>
     <form name="code" onsubmit="validateCode(event)">
       <label for="code">Code d'accès</label>
-      <input type="text" id="code" name="code" placeholder="Entrez le code d'accès du jour" required>
+      <input type="text" id="code" name="code" placeholder="Saisir le code reçu" required>
 
       <button type="submit">Valider</button>
     </form>
