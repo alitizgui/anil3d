@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation</title>
+</head>
+<body>
+    <h1>Formulaire soumis avec succès !</h1>
+    <p>Votre demande a été envoyée. Veuillez noter votre code de validation pour un suivi ultérieur.</p>
+    
+    <p><strong>Code de validation : </strong><span id="validation-code"></span></p>
+
+    <script>
+        // Fonction pour générer le code de validation en fonction du jour de la semaine
+        function getValidationCode() {
+            const params = new URLSearchParams(window.location.search);
+            const day = params.get("day"); // Récupère le jour de la semaine depuis les paramètres de l'URL
+
+            // Format du jour, par exemple "lun01" pour lundi
+            const days = {
+                "lun01": "Lundi - Code : lun01",
+                "mar02": "Mardi - Code : mar02",
+                "mer03": "Mercredi - Code : mer03",
+                "jeu04": "Jeudi - Code : jeu04",
+                "ven05": "Vendredi - Code : ven05",
+                "sam06": "Samedi - Code : sam06",
+                "dim07": "Dimanche - Code : dim07"
+            };
+
+            return days[day] || "Code invalide";
+        }
+
+        // Affichage du code de validation
+        document.getElementById('validation-code').textContent = getValidationCode();
+    </script>
+</body>
+</html>
