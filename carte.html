@@ -19,17 +19,13 @@
       color: black;
       opacity: 0.8;
     }
-    #coordinateSearch {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 10px;
-      border-radius: 5px;
+    /* New styling for search box */
+    #searchBox {
+      display: none;
+      margin: 10px;
     }
-    #coordinateSearch label,
-    #coordinateSearch input {
-      margin: 5px;
+    #searchCoords {
+      width: 200px;
     }
   </style>
   <script src="/threejs/three.min.js"></script>
@@ -67,6 +63,12 @@
         <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
         <div id="measurebtn" class="action-btn">Measure distance</div>
       </div>
+      <!-- Search box for coordinates -->
+      <div id="searchBox">
+        <h2>Find Location</h2>
+        <input type="text" id="searchCoords" placeholder="Enter X Y coordinates (UTM)" />
+        <button onclick="searchCoordinates()">Find</button>
+      </div>
     </div>
   </div>
 
@@ -95,15 +97,6 @@
     <div id="nextbtn"></div>
   </div>
 
-  <!-- Coordinate Search Form -->
-  <div id="coordinateSearch">
-    <label for="utm-x">X (UTM):</label>
-    <input type="text" id="utm-x" placeholder="Enter X coordinate" />
-    <label for="utm-y">Y (UTM):</label>
-    <input type="text" id="utm-y" placeholder="Enter Y coordinate" />
-    <button id="searchBtn">Search</button>
-  </div>
-
   <script>
     Q3D.Config.allVisible = true;
     Q3D.Config.viewpoint = {
@@ -126,25 +119,31 @@
       // all relevant files have been loaded
     });
 
-    // Handle the search functionality for UTM coordinates
-    document.getElementById('searchBtn').addEventListener('click', function() {
-      var utmX = document.getElementById('utm-x').value;
-      var utmY = document.getElementById('utm-y').value;
-
-      if (utmX && utmY) {
-        // Use UTM coordinates directly without conversion
-        var coords = new THREE.Vector3(parseFloat(utmX), parseFloat(utmY), 0); // Z=0 for simplicity
-
-        // Move the camera to the new position
-        app.camera.position.set(coords.x, coords.y, app.camera.position.z);
-        app.camera.lookAt(coords);
-
-        // Optional: display the coordinates in the popup for reference
-        document.getElementById('qr_coords').innerText = "X: " + coords.x + ", Y: " + coords.y;
-      } else {
-        alert("Please enter valid X and Y coordinates.");
-      }
+    // Function to handle right-click events and display the search box
+    container.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+      var popup = document.getElementById('popup');
+      var searchBox = document.getElementById('searchBox');
+      searchBox.style.display = 'block'; // Show the search box
+      popup.style.top = `${event.clientY}px`;
+      popup.style.left = `${event.clientX}px`;
     });
+
+    // Function to handle the search coordinates input
+    function searchCoordinates() {
+      var coordsInput = document.getElementById('searchCoords').value;
+      var coords = coordsInput.split(" ");
+      if (coords.length === 2) {
+        var x = parseFloat(coords[0]);
+        var y = parseFloat(coords[1]);
+        // Here you can use these coordinates (X, Y) in UTM Zone 29 directly
+        console.log('Search coordinates:', x, y);
+        // Move the camera or perform any action with these coordinates
+        app.camera.position.set(x, y, app.camera.position.z); // Example of updating camera position
+      } else {
+        alert('Please enter valid X and Y coordinates.');
+      }
+    }
   </script>
 </body>
 </html>
