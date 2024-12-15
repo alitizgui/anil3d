@@ -142,31 +142,34 @@
 
     // load the scene
     app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
+      // scene file has been loaded
       app.start();
+    }, function (scene) {
+      // all relevant files have been loaded
     });
 
     // Handle right-click to show the "Find Location" input field
     container.addEventListener('contextmenu', function(event) {
       event.preventDefault();
+      var popup = document.getElementById("popup");
       var findLocationDiv = document.getElementById("findLocation");
       findLocationDiv.style.display = 'block';  // Show the input field when right-click happens
     });
 
-    // Function to move the camera to a specific location
+    // Function to zoom to a specific location
     function flyToLocation(x, y) {
-      const camera = app.camera;
-      const controls = app.controls;
+      const camera = app.camera; // Access the camera
+      const controls = app.controls; // Access OrbitControls
 
-      const target = new THREE.Vector3(x, y, 0); // Replace 0 with the appropriate Z value if needed
-      const zoomDistance = 500; // Adjust the zoom distance as needed
-
+      const target = new THREE.Vector3(x, y, 0); // Target position (adjust Z as needed)
+      const zoomDistance = 500; // Distance above the target for zoom
       const cameraPosition = new THREE.Vector3(x, y, zoomDistance);
 
       camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
       controls.target.set(target.x, target.y, target.z);
       controls.update();
 
-      app.render(); // Force the scene to render
+      app.render(); // Render the updated view
     }
 
     // Handle the "Go" button to find the location
@@ -178,13 +181,8 @@
         const x = coords[0];
         const y = coords[1];
 
+        // Fly to the specified location
         flyToLocation(x, y);
 
-        document.getElementById("qr_coords").textContent = `X: ${x}, Y: ${y}`;
-      } else {
-        alert("Veuillez entrer des coordonnées valides au format : X, Y.");
-      }
-    });
-  </script>
-</body>
-</html>
+        // Update coordinates display
+        document.getElementById("qr_coords").textContent = `X: ${x}, Y: ${
