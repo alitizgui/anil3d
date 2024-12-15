@@ -5,7 +5,6 @@
   <title>Anil3d</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <base target="_blank">
-  <!-- Mettre les liens relatifs corrects -->
   <link rel="stylesheet" type="text/css" href="/Qgis2threejs.css">
   <style type="text/css">
     #popup, #header, #layerpanel {
@@ -15,24 +14,25 @@
       position: absolute;
       bottom: 10px;
       left: 10px;
-      font-family: cursive;
+      font-family: 'Roboto', sans-serif;
       font-size: 12px;
       color: black;
-      z-index: 10;
+      opacity: 0.8;
     }
   </style>
   <script src="/threejs/three.min.js"></script>
   <script src="/threejs/OrbitControls.js"></script>
   <script src="/threejs/ViewHelper.js"></script>
   <script src="/Qgis2threejs.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="view">
     <div id="northarrow"></div>
     <div id="navigation"></div>
-    <!-- Titre manuscrit en bas à gauche -->
-    <div id="title">Ayda Maps 3D Interactive</div>
   </div>
+
+  <div id="title">Ayda Maps 3D Interactive</div>
 
   <!-- popup -->
   <div id="popup">
@@ -40,40 +40,30 @@
     <div id="popupbar"></div>
     <div id="popupbody">
       <div id="popupcontent"></div>
-
-      <!-- query result -->
       <div id="queryresult">
         <table id="qr_coords_table">
           <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
           <tr><td id="qr_coords"></td></tr>
         </table>
-
         <table id="qr_layername_table">
           <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
           <tr><td id="qr_layername"></td></tr>
         </table>
-
         <table id="qr_attrs_table">
           <caption>Attributes</caption>
         </table>
-
-        <!-- camera actions and measure tool -->
         <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
         <div id="measurebtn" class="action-btn">Measure distance</div>
       </div>
-
-      <!-- page info -->
       <div id="pageinfo">
         <h1>Current View URL</h1>
         <div><input id="urlbox" type="text"></div>
-
         <h1>Usage</h1>
         <table id="usage">
           <tr><td colspan="2" class="star">Mouse</td></tr>
           <tr><td>Left button + Move</td><td>Orbit</td></tr>
           <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
           <tr><td>Right button + Move</td><td>Pan</td></tr>
-
           <tr><td colspan="2" class="star">Keys</td></tr>
           <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
           <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
@@ -110,9 +100,7 @@
 
   <!-- animation -->
   <div id="narrativebox" class="ef1">
-    <div id="narbody">
-
-    </div>
+    <div id="narbody"></div>
     <div id="nextbtn"></div>
   </div>
 
