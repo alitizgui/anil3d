@@ -19,13 +19,8 @@
       color: black;
       opacity: 0.8;
     }
-    /* New styling for search box */
-    #searchBox {
-      display: none;
+    #findLocationInput {
       margin: 10px;
-    }
-    #searchCoords {
-      width: 200px;
     }
   </style>
   <script src="/threejs/three.min.js"></script>
@@ -63,11 +58,31 @@
         <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
         <div id="measurebtn" class="action-btn">Measure distance</div>
       </div>
-      <!-- Search box for coordinates -->
-      <div id="searchBox">
-        <h2>Find Location</h2>
-        <input type="text" id="searchCoords" placeholder="Enter X Y coordinates (map system)" />
-        <button onclick="searchCoordinates()">Find</button>
+      <div id="findLocation">
+        <label for="findLocationInput">Find Location (Enter X, Y coordinates in UTM):</label>
+        <input type="text" id="findLocationInput" placeholder="X, Y" />
+        <button id="findLocationBtn">Go</button>
+      </div>
+      <div id="pageinfo">
+        <h1>Current View URL</h1>
+        <div><input id="urlbox" type="text"></div>
+        <h1>Usage</h1>
+        <table id="usage">
+          <tr><td colspan="2" class="star">Mouse</td></tr>
+          <tr><td>Left button + Move</td><td>Orbit</td></tr>
+          <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
+          <tr><td>Right button + Move</td><td>Pan</td></tr>
+          <tr><td colspan="2" class="star">Keys</td></tr>
+          <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
+          <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
+          <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
+          <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
+          <tr><td>L</td><td>Toggle Label Visibility</td></tr>
+          <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
+          <tr><td>W</td><td>Wireframe Mode</td></tr>
+          <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
+          <tr><td>Shift + S</td><td>Save Image</td></tr>
+        </table>
       </div>
     </div>
   </div>
@@ -119,44 +134,32 @@
       // all relevant files have been loaded
     });
 
-    // Function to handle right-click events and display the search box
-    container.addEventListener('contextmenu', function (event) {
+    // Handle right-click to show the "Find Location" input field
+    container.addEventListener('contextmenu', function(event) {
       event.preventDefault();
-      var popup = document.getElementById('popup');
-      var searchBox = document.getElementById('searchBox');
-      searchBox.style.display = 'block'; // Show the search box
-      popup.style.top = `${event.clientY}px`;
-      popup.style.left = `${event.clientX}px`;
+      var popup = document.getElementById("popup");
+      var findLocationDiv = document.getElementById("findLocation");
+      findLocationDiv.style.display = 'block';  // Show the input field when right-click happens
     });
 
-    // Function to handle the search coordinates input
-    function searchCoordinates() {
-      var coordsInput = document.getElementById('searchCoords').value;
-      var coords = coordsInput.split(" ");
+    // Handle the "Go" button to find the location
+    document.getElementById("findLocationBtn").addEventListener('click', function() {
+      var input = document.getElementById("findLocationInput").value;
+      var coords = input.split(',').map(function(coord) {
+        return parseFloat(coord.trim());
+      });
+
       if (coords.length === 2) {
-        var x = parseFloat(coords[0]);
-        var y = parseFloat(coords[1]);
-        // Here you can use these coordinates directly in the current map system (no conversion)
-        console.log('Search coordinates:', x, y);
-        // Move the camera to the specified coordinates
-        app.camera.position.set(x, y, app.camera.position.z); // Example of updating camera position
-        // Update query result
-        document.getElementById("qr_coords").innerText = `X: ${x}, Y: ${y}`;
+        var x = coords[0];
+        var y = coords[1];
+
+        // Update the scene view to the new coordinates
+        app.viewpoint.pos.x = x;
+        app.viewpoint.pos.y = y;
+        app.update();  // Update the map to reflect the change
       } else {
-        alert('Please enter valid X and Y coordinates.');
+        alert("Please enter valid UTM coordinates (X, Y).");
       }
-    }
-
-    // Display information in the "I" icon (just as an example)
-    document.getElementById('infobtn').addEventListener('click', function () {
-      var popup = document.getElementById('popup');
-      var searchBox = document.getElementById('searchBox');
-      searchBox.style.display = 'none'; // Hide the search box when clicking "I" icon
-
-      // You can add any additional information you want to display
-      var coords = document.getElementById("qr_coords");
-      coords.innerText = 'Information on the clicked coordinates will appear here.';
-      popup.style.display = 'block';
     });
   </script>
 </body>
