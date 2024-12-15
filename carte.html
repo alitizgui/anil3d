@@ -19,6 +19,16 @@
       color: black;
       opacity: 0.8;
     }
+    #findLocation {
+      margin: 10px;
+      display: none;
+    }
+    #findLocationTitle {
+      background-color: yellow;
+      padding: 5px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     #findLocationInput {
       margin: 10px;
     }
@@ -58,11 +68,15 @@
         <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
         <div id="measurebtn" class="action-btn">Measure distance</div>
       </div>
+
+      <!-- Find Location Section -->
       <div id="findLocation">
-        <label for="findLocationInput">Find Location (Enter X, Y coordinates in UTM):</label>
+        <div id="findLocationTitle">Find Location</div>
+        <label for="findLocationInput">Enter coordinates (X, Y):</label>
         <input type="text" id="findLocationInput" placeholder="X, Y" />
         <button id="findLocationBtn">Go</button>
       </div>
+
       <div id="pageinfo">
         <h1>Current View URL</h1>
         <div><input id="urlbox" type="text"></div>
@@ -153,12 +167,12 @@
         var x = coords[0];
         var y = coords[1];
 
-        // Update the scene view to the new coordinates
+        // Update the scene view to the new coordinates using the map's system
         app.viewpoint.pos.x = x;
         app.viewpoint.pos.y = y;
         app.update();  // Update the map to reflect the change
       } else {
-        alert("Please enter valid UTM coordinates (X, Y).");
+        alert("Please enter valid coordinates (X, Y).");
       }
     });
   </script>
