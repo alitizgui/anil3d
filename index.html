@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulaire d'Inscription</title>
+  <title>AYDA MAPS ANIL 3D MAP</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -15,6 +15,24 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #333;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0 15px;
     }
 
     #form-container {
@@ -34,9 +52,9 @@
     }
 
     #form-container input {
-      width: 100%;
+      width: calc(100% - 24px);
       padding: 12px;
-      margin: 10px 0;
+      margin: 10px auto;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
@@ -46,7 +64,7 @@
       background: #007bff;
       color: #fff;
       padding: 12px;
-      width: 100%;
+      width: calc(100% - 24px);
       border: none;
       border-radius: 5px;
       font-size: 16px;
@@ -65,9 +83,38 @@
       font-weight: 400;
       margin-bottom: 5px;
     }
+
+    #shortcut {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    #shortcut a {
+      text-decoration: none;
+      color: #007bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #shortcut a:hover {
+      color: #0056b3;
+    }
+
+    #shortcut a img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>AYDA MAPS ANIL 3D MAP</h1>
+    <p>Bienvenue dans le monde des cartes numériques AYDA MAPS by VENTALIS</p>
+  </header>
 
   <div id="form-container">
     <h2>Inscription pour accéder à la carte 3D</h2>
@@ -86,25 +133,27 @@
 
       <button type="submit">S'inscrire</button>
     </form>
+    <div id="shortcut">
+      <a href="validation_code.html">
+        <img src="https://img.icons8.com/ios-filled/50/007bff/enter-key.png" alt="Code">
+        Accès direct avec code
+      </a>
+    </div>
   </div>
 
   <script>
-    // Fonction pour gérer la soumission du formulaire
     function handleFormSubmit(event) {
-      event.preventDefault(); // Empêche la soumission classique du formulaire
+      event.preventDefault();
 
-      // Récupération des données
       const form = event.target;
       const formData = new FormData(form);
 
-      // Envoi des données à Netlify Forms
       fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
       })
       .then(() => {
-        // Redirection vers la page de validation du code
         window.location.href = 'validation_code.html';
       })
       .catch((error) => {
