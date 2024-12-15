@@ -7,9 +7,8 @@
   <base target="_blank">
   <link rel="stylesheet" type="text/css" href="/Qgis2threejs.css">
   <style type="text/css">
-    #view {
-      width: 100%;
-      height: 100vh;
+    #popup, #header, #layerpanel {
+      left: 36px;
     }
     #title {
       position: absolute;
@@ -24,6 +23,15 @@
       margin: 10px;
       display: none;
     }
+    #findLocationTitle {
+      background-color: yellow;
+      padding: 5px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #findLocationInput {
+      margin: 10px;
+    }
   </style>
   <script src="/threejs/three.min.js"></script>
   <script src="/threejs/OrbitControls.js"></script>
@@ -32,13 +40,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="view"></div>
+  <div id="view">
+    <div id="northarrow"></div>
+    <div id="navigation"></div>
+  </div>
 
   <div id="title">Ayda Maps 3D Interactive</div>
 
   <!-- popup -->
   <div id="popup">
     <div id="closebtn">&times;</div>
+    <div id="popupbar"></div>
     <div id="popupbody">
       <div id="popupcontent"></div>
       <div id="queryresult">
@@ -46,6 +58,15 @@
           <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
           <tr><td id="qr_coords"></td></tr>
         </table>
+        <table id="qr_layername_table">
+          <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
+          <tr><td id="qr_layername"></td></tr>
+        </table>
+        <table id="qr_attrs_table">
+          <caption>Attributes</caption>
+        </table>
+        <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
+        <div id="measurebtn" class="action-btn">Measure distance</div>
       </div>
 
       <!-- Find Location Section -->
@@ -55,38 +76,87 @@
         <input type="text" id="findLocationInput" placeholder="X, Y" />
         <button id="findLocationBtn">Go</button>
       </div>
+
+      <div id="pageinfo">
+        <h1>Current View URL</h1>
+        <div><input id="urlbox" type="text"></div>
+        <h1>Usage</h1>
+        <table id="usage">
+          <tr><td colspan="2" class="star">Mouse</td></tr>
+          <tr><td>Left button + Move</td><td>Orbit</td></tr>
+          <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
+          <tr><td>Right button + Move</td><td>Pan</td></tr>
+          <tr><td colspan="2" class="star">Keys</td></tr>
+          <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
+          <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
+          <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
+          <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
+          <tr><td>L</td><td>Toggle Label Visibility</td></tr>
+          <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
+          <tr><td>W</td><td>Wireframe Mode</td></tr>
+          <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
+          <tr><td>Shift + S</td><td>Save Image</td></tr>
+        </table>
+      </div>
     </div>
   </div>
 
+  <!-- progress bar -->
+  <div id="progress"><div id="progressbar"></div></div>
+
+  <!-- menu -->
+  <div id="toolbtns">
+    <div id="layerbtn"></div>
+    <div id="animbtn" class="hidden"></div>
+    <div id="infobtn"></div>
+  </div>
+
+  <!-- header and footer -->
+  <div id="header"></div>
+  <div id="footer"></div>
+
+  <!-- layer panel -->
+  <div id="layerpanel">
+    <div id="layerlist"></div>
+  </div>
+
+  <!-- animation -->
+  <div id="narrativebox" class="ef1">
+    <div id="narbody"></div>
+    <div id="nextbtn"></div>
+  </div>
+
   <script>
-    // Vérification de la configuration de Q3D
     Q3D.Config.allVisible = true;
+    Q3D.Config.viewpoint = {
+      lookAt: {x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938},
+      pos: {x: 496021.26971992507, y: 3291540.6997546116, z: 1316.5565223819008}
+    };
     Q3D.Config.localMode = true;
-    
+
     var container = document.getElementById("view"),
         app = Q3D.application,
         gui = Q3D.gui;
 
-    app.init(container); // Initialisation du visualiseur
+    app.init(container); // initialize viewer
 
-    // Chargement du fichier de scène
-    app.loadSceneFile("/data/Anil3d/scene.js", function(scene) {
-      // Si le fichier est bien chargé
-      console.log("Scene loaded successfully!");
+    // load the scene
+    app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
+      // scene file has been loaded
       app.start();
-    }, function(error) {
-      // Si une erreur se produit lors du chargement
-      console.error("Error loading the scene:", error);
+    }, function (scene) {
+      // all relevant files have been loaded
     });
 
-    // Gestion du clic droit pour afficher la recherche de coordonnées
+    // Handle right-click to show the "Find Location" input field
     container.addEventListener('contextmenu', function(event) {
       event.preventDefault();
+      var popup = document.getElementById("popup");
       var findLocationDiv = document.getElementById("findLocation");
-      findLocationDiv.style.display = 'block';  // Afficher la section de recherche
+      findLocationDiv.style.display = 'block';  // Show the input field when right-click happens
     });
 
-    // Gestion du bouton "Go"
+    // Handle the "Go" button to find the location
     document.getElementById("findLocationBtn").addEventListener('click', function() {
       var input = document.getElementById("findLocationInput").value;
       var coords = input.split(',').map(function(coord) {
@@ -97,12 +167,12 @@
         var x = coords[0];
         var y = coords[1];
 
-        // Mise à jour de la vue vers les nouvelles coordonnées
+        // Update the scene view to the new coordinates using the map's system
         app.viewpoint.pos.x = x;
         app.viewpoint.pos.y = y;
-        app.update();  // Mettre à jour la carte
+        app.update();  // Update the map to reflect the change
 
-        // Affichage des coordonnées dans la table
+        // Copy the coordinates to the clicked coordinates section
         document.getElementById("qr_coords").textContent = "X: " + x + ", Y: " + y;
       } else {
         alert("Please enter valid coordinates (X, Y).");
