@@ -1,38 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation du Code d'Accès</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f4f8;
+      margin: 0;
+    }
+
+    #validation-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    #validation-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #validation-container button {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #validation-container button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <h1>Formulaire soumis avec succès !</h1>
-    <p>Votre demande a été envoyée. Veuillez noter votre code de validation pour un suivi ultérieur.</p>
-    
-    <p><strong>Code de validation : </strong><span id="validation-code"></span></p>
 
-    <script>
-        // Fonction pour générer le code de validation en fonction du jour de la semaine
-        function getValidationCode() {
-            const params = new URLSearchParams(window.location.search);
-            const day = params.get("day"); // Récupère le jour de la semaine depuis les paramètres de l'URL
+  <div id="validation-container">
+    <h2>Entrer le code d'accès</h2>
+    <div>
+      <label for="code">Code d'accès</label>
+      <input type="text" id="code" placeholder="Entrez le code d'accès" required>
+    </div>
+    <button onclick="validateCode()">Valider</button>
+    <p id="error-message" style="color: red;"></p>
+  </div>
 
-            // Format du jour, par exemple "lun01" pour lundi
-            const days = {
-                "lun01": "Lundi - Code : lun01",
-                "mar02": "Mardi - Code : mar02",
-                "mer03": "Mercredi - Code : mer03",
-                "jeu04": "Jeudi - Code : jeu04",
-                "ven05": "Vendredi - Code : ven05",
-                "sam06": "Samedi - Code : sam06",
-                "dim07": "Dimanche - Code : dim07"
-            };
+  <script>
+    function validateCode() {
+      const userCode = document.getElementById('code').value.trim().toLowerCase();
+      const currentDay = new Date().getDay();  // Récupère le jour de la semaine (0 = dimanche, 1 = lundi, etc.)
+      const codes = ['dim7', 'lun1', 'mar2', 'mer3', 'jeu4', 'ven5', 'sam6'];
+      const correctCode = codes[currentDay];  // Code correct pour le jour actuel
 
-            return days[day] || "Code invalide";
-        }
+      if (userCode === correctCode) {
+        // Si le code est correct, rediriger vers la carte
+        window.location.href = '/carte.html';
+      } else {
+        // Afficher un message d'erreur si le code est incorrect
+        document.getElementById('error-message').textContent = "Le code d'accès est incorrect. Essayez à nouveau.";
+      }
+    }
+  </script>
 
-        // Affichage du code de validation
-        document.getElementById('validation-code').textContent = getValidationCode();
-    </script>
 </body>
 </html>
