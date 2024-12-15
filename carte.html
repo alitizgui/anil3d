@@ -66,7 +66,7 @@
       <!-- Search box for coordinates -->
       <div id="searchBox">
         <h2>Find Location</h2>
-        <input type="text" id="searchCoords" placeholder="Enter X Y coordinates (UTM)" />
+        <input type="text" id="searchCoords" placeholder="Enter X Y coordinates (map system)" />
         <button onclick="searchCoordinates()">Find</button>
       </div>
     </div>
@@ -136,14 +136,28 @@
       if (coords.length === 2) {
         var x = parseFloat(coords[0]);
         var y = parseFloat(coords[1]);
-        // Here you can use these coordinates (X, Y) in UTM Zone 29 directly
+        // Here you can use these coordinates directly in the current map system (no conversion)
         console.log('Search coordinates:', x, y);
-        // Move the camera or perform any action with these coordinates
+        // Move the camera to the specified coordinates
         app.camera.position.set(x, y, app.camera.position.z); // Example of updating camera position
+        // Update query result
+        document.getElementById("qr_coords").innerText = `X: ${x}, Y: ${y}`;
       } else {
         alert('Please enter valid X and Y coordinates.');
       }
     }
+
+    // Display information in the "I" icon (just as an example)
+    document.getElementById('infobtn').addEventListener('click', function () {
+      var popup = document.getElementById('popup');
+      var searchBox = document.getElementById('searchBox');
+      searchBox.style.display = 'none'; // Hide the search box when clicking "I" icon
+
+      // You can add any additional information you want to display
+      var coords = document.getElementById("qr_coords");
+      coords.innerText = 'Information on the clicked coordinates will appear here.';
+      popup.style.display = 'block';
+    });
   </script>
 </body>
 </html>
