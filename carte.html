@@ -10,14 +10,20 @@
     #popup, #header, #layerpanel {
       left: 36px;
     }
+
     #title-container {
-      text-align: center;
-      background-color: #87CEEB; /* Bleu ciel */
+      text-align: right;
       padding: 10px;
       font-size: 1.5em;
       font-weight: bold;
+    }
+
+    #title-text {
+      display: inline-block;
+      background-color: #87CEEB; /* Bleu clair */
+      padding: 5px 10px;
       color: white;
-      margin-bottom: 10px;
+      border-radius: 5px;
     }
   </style>
   <script src="/threejs/three.min.js"></script>
@@ -27,7 +33,7 @@
 </head>
 <body>
   <div id="title-container">
-    Ayda Maps Interactive ANIL 3D
+    <span id="title-text">Ayda Maps Interactive ANIL 3D</span>
   </div>
 
   <div id="view">
