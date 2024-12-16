@@ -154,7 +154,7 @@
 
       // Validation du champ Douar
       const douarInput = document.getElementById("douar").value.trim();
-      const validDouars = ["Anil", "anil", "أنيل", "انيل"];
+      const validDouars = ["Anil", "ANIL", "anil", "أنيل", "انيل"];
       if (!validDouars.includes(douarInput)) {
         alert("Erreur : Les données sont incorrectes");
         return; // Bloque la soumission du formulaire
