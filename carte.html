@@ -40,6 +40,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- LIGNE AJOUTÉE : Vérification de l'accès -->
+  <script>
+    if (!sessionStorage.getItem("accessGranted")) {
+      window.location.href = 'index.html';
+    }
+  </script>
+  <!-- Fin de la LIGNE AJOUTÉE -->
+
   <div id="view">
     <div id="northarrow"></div>
     <div id="navigation"></div>

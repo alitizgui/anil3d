@@ -89,6 +89,9 @@
       const correctCode = dayCodes[today];
 
       if (code === correctCode) {
+        // Code validé : on enregistre l'information dans la session
+        sessionStorage.setItem("accessGranted", "true"); // LIGNE AJOUTÉE
+
         window.location.href = 'carte.html'; // Redirection vers la carte si le code est correct
       } else {
         alert('Code incorrect. Veuillez réessayer.');
