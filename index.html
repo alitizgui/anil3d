@@ -110,7 +110,7 @@
 
   <div id="form-container">
     <h2>S'inscrire pour accéder à la carte ANIL 3D</h2>
-    <form name="inscription" method="POST" onsubmit="handleFormSubmit(event)">
+    <form name="inscription" method="POST" data-netlify="true" onsubmit="handleFormSubmit(event)">
       <label for="nom">Nom</label>
       <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
 
@@ -153,13 +153,13 @@
       const today = new Date().toLocaleString('fr-FR', { weekday: 'long' }).toLowerCase();
       const correctCode = dayCodes[today];
 
-      // Inclure le code dans l'URL de redirection
+      // Soumission du formulaire via Netlify
       fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
+        body: formData
       })
         .then(() => {
+          // Rediriger vers validation_code.html avec le code du jour
           window.location.href = `validation_code.html?code=${correctCode}`;
         })
         .catch((error) => {
