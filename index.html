@@ -14,7 +14,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       flex-direction: column;
     }
 
@@ -42,34 +42,44 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 400px;
-      text-align: center;
     }
 
     #form-container h2 {
       margin-bottom: 20px;
       color: #333;
       font-weight: 600;
+      text-align: center;
+    }
+
+    #form-container label {
+      display: block;
+      margin-bottom: 8px;
+      margin-left: 16px; /* Deux cases depuis le bord gauche */
+      font-weight: bold;
+      text-align: left;
     }
 
     #form-container input {
-      width: calc(100% - 24px);
+      width: calc(100% - 32px);
       padding: 12px;
-      margin: 10px auto;
+      margin: 8px auto 16px auto;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
+      display: block;
     }
 
     #form-container button {
       background: #007bff;
       color: #fff;
       padding: 12px;
-      width: calc(100% - 24px);
+      width: calc(100% - 32px);
       border: none;
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 10px auto;
+      display: block;
     }
 
     #form-container button:hover {
@@ -146,7 +156,7 @@
 
       // Enregistrer les données dans Google Sheets via Apps Script
       const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
-      
+
       try {
         const response = await fetch(googleScriptURL, {
           method: "POST",
