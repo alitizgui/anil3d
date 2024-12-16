@@ -18,11 +18,11 @@
 
     #logo-container {
       opacity: 0; /* Départ invisible */
-      animation: fade-in 4s ease-in, fade-out 2s 16s ease-in forwards; /* Animation configurée */
+      animation: fade-in 3s ease-in, fade-out 1s 9s ease-in forwards; /* Fondu enchaîné */
     }
 
     #logo-container img {
-      width: 40vw; /* Taille flexible */
+      width: 40vw; /* Taille flexible 40% de la largeur de l'écran */
       max-width: 600px; /* Taille maximale */
       min-width: 300px; /* Taille minimale */
       height: auto; /* Conserve les proportions */
@@ -46,18 +46,6 @@
         visibility: hidden;
       }
     }
-
-    #form-container {
-      display: none; /* Masqué initialement */
-    }
-
-    #form-container.active {
-      display: flex; /* Apparaît sous forme de flexbox */
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      animation: fade-in 1s ease-in forwards; /* Apparition immédiate */
-    }
   </style>
 </head>
 <body>
@@ -67,35 +55,11 @@
     <img src="Anil3DmapIcone.webp" alt="Anil 3D Logo">
   </div>
 
-  <!-- Conteneur du formulaire -->
-  <div id="form-container">
-    <h2>S'inscrire pour accéder à la carte Anil 3D</h2>
-    <form name="inscription" method="POST" id="google-form">
-      <label for="nom">Nom</label>
-      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
-
-      <label for="prenom">Prénom</label>
-      <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
-
-      <label for="telephone">Téléphone</label>
-      <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
-
-      <label for="douar">Douar</label>
-      <input type="text" id="douar" name="douar" placeholder="Entrez le nom du douar" required>
-
-      <button type="submit">S'inscrire</button>
-    </form>
-  </div>
-
   <script>
-    // Affiche le formulaire après 16 secondes (fin de l'animation du logo)
+    // Redirection automatique après 10 secondes
     setTimeout(() => {
-      const formContainer = document.getElementById("form-container");
-      formContainer.classList.add("active"); // Ajoute la classe pour l'affichage
-    }, 16000);
+      window.location.href = 'formulaire.html';
+    }, 6000);
   </script>
 
 </body>
