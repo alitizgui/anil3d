@@ -56,23 +56,68 @@
     #form-container button:hover {
       background: #0056b3;
     }
+
+    #provisional-code {
+      background-color: #f0f8ff;
+      padding: 10px;
+      border: 1px solid #007bff;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #0056b3;
+    }
+
+    #warning {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
   <div id="form-container">
-    <h2>Saisir le code reçu</h2>
+    <h2 id="dynamic-title">Validation du Code d'Accès</h2>
+
+    <div id="provisional-code" style="display: none;">
+      Voici le code provisoire à saisir pour accéder à la carte Anil 3D : <span id="generated-code"></span>
+    </div>
+
     <form name="code" onsubmit="validateCode(event)">
       <label for="code">Code d'accès</label>
       <input type="text" id="code" name="code" placeholder="Entrez le code reçu" required>
 
       <button type="submit">Valider</button>
     </form>
+
+    <div id="warning" style="display: none;">
+      Vous n'avez pas de code provisoire. Veuillez entrer le code reçu par message.
+    </div>
   </div>
 
   <script>
+    // Fonction pour récupérer les paramètres de l'URL
+    function getQueryParam(param) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(param);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const code = getQueryParam("code");
+
+      if (code) {
+        document.getElementById("dynamic-title").textContent = "Votre code provisoire pour accéder à la carte Anil 3D";
+        document.getElementById("provisional-code").style.display = "block";
+        document.getElementById("generated-code").textContent = code;
+      } else {
+        document.getElementById("dynamic-title").textContent = "Validation du Code d'Accès";
+        document.getElementById("warning").style.display = "block";
+      }
+    });
+
     function validateCode(event) {
-      event.preventDefault(); // Empêche la soumission classique du formulaire
+      event.preventDefault();
 
       const code = document.getElementById('code').value.trim().toLowerCase();
       const dayCodes = {
@@ -89,10 +134,8 @@
       const correctCode = dayCodes[today];
 
       if (code === correctCode) {
-        // Code validé : on enregistre l'information dans la session
-        sessionStorage.setItem("accessGranted", "true"); // LIGNE AJOUTÉE
-
-        window.location.href = 'carte.html'; // Redirection vers la carte si le code est correct
+        sessionStorage.setItem("accessGranted", "true");
+        window.location.href = 'carte.html';
       } else {
         alert('Code incorrect. Veuillez réessayer.');
       }
