@@ -110,7 +110,7 @@
 
   <div id="form-container">
     <h2>S'inscrire pour accéder à la carte ANIL 3D</h2>
-    <form name="inscription" method="POST" data-netlify="true" onsubmit="handleFormSubmit(event)">
+    <form name="inscription" method="POST" id="google-form">
       <label for="nom">Nom</label>
       <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
 
@@ -134,39 +134,46 @@
   </div>
 
   <script>
-    function handleFormSubmit(event) {
+    const form = document.getElementById("google-form");
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const form = event.target;
       const formData = new FormData(form);
 
-      // Générer le code du jour
-      const dayCodes = {
-        lundi: 'lun1',
-        mardi: 'mar2',
-        mercredi: 'mer3',
-        jeudi: 'jeu4',
-        vendredi: 'ven5',
-        samedi: 'sam6',
-        dimanche: 'dim7'
-      };
-      const today = new Date().toLocaleString('fr-FR', { weekday: 'long' }).toLowerCase();
-      const correctCode = dayCodes[today];
+      // Enregistrer les données dans Google Sheets via Apps Script
+      const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
+      
+      try {
+        const response = await fetch(googleScriptURL, {
+          method: "POST",
+          body: formData,
+        });
 
-      // Soumission du formulaire via Netlify
-      fetch('/', {
-        method: 'POST',
-        body: formData
-      })
-        .then(() => {
+        if (response.ok) {
+          // Générer le code du jour
+          const dayCodes = {
+            lundi: "lun1",
+            mardi: "mar2",
+            mercredi: "mer3",
+            jeudi: "jeu4",
+            vendredi: "ven5",
+            samedi: "sam6",
+            dimanche: "dim7",
+          };
+          const today = new Date().toLocaleString("fr-FR", { weekday: "long" }).toLowerCase();
+          const correctCode = dayCodes[today];
+
           // Rediriger vers validation_code.html avec le code du jour
           window.location.href = `validation_code.html?code=${correctCode}`;
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la soumission du formulaire :', error);
-          alert('Une erreur est survenue. Veuillez réessayer.');
-        });
-    }
+        } else {
+          alert("Erreur lors de l'enregistrement des données. Veuillez réessayer.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la soumission :", error);
+        alert("Une erreur est survenue. Veuillez réessayer.");
+      }
+    });
   </script>
 
 </body>
