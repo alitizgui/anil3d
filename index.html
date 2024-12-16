@@ -11,19 +11,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       background-color: #f0f4f8;
       font-family: 'Poppins', sans-serif;
     }
 
+    #signature {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px; /* Espace entre le titre et l'image */
+      color: #333;
+    }
+
     #logo-container {
       opacity: 0; /* Départ invisible */
-      animation: fade-in 4s ease-in, fade-out 4s 20s ease-in forwards; /* Fondu enchaîné */
+      animation: fade-in 4s ease-in, fade-out 2s 16s ease-in forwards; /* Animation configurée */
     }
 
     #logo-container img {
-        width: 40vw; /* Taille flexible 40% de la largeur de l'écran */
-      max-width: 500px; /* Taille maximale */
+      width: 40vw; /* Taille flexible */
+      max-width: 600px; /* Taille maximale */
       min-width: 300px; /* Taille minimale */
       height: auto; /* Conserve les proportions */
     }
@@ -46,20 +54,59 @@
         visibility: hidden;
       }
     }
+
+    #form-container {
+      display: none; /* Masqué initialement */
+    }
+
+    #form-container.active {
+      display: flex; /* Apparaît sous forme de flexbox */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fade-in 1s ease-in forwards; /* Apparition immédiate */
+    }
   </style>
 </head>
 <body>
+
+  <!-- Titre (signature) au-dessus de l'image -->
+  <div id="signature">ⵜⵎⴰⵔⵓⴷⵜ ⴰⵏⵣⴳⵉⴷ</div>
 
   <!-- Conteneur de l'image animée -->
   <div id="logo-container">
     <img src="Anil3DmapIcone.webp" alt="Anil 3D Logo">
   </div>
 
+  <!-- Conteneur du formulaire -->
+  <div id="form-container">
+    <h2>S'inscrire pour accéder à la carte Anil 3D</h2>
+    <form name="inscription" method="POST" id="google-form">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
+
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
+
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
+
+      <label for="douar">Douar</label>
+      <input type="text" id="douar" name="douar" placeholder="Entrez le nom du douar" required>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+
   <script>
-    // Redirection automatique après 6 secondes
+    // Affiche le formulaire après 16 secondes (fin de l'animation du logo)
     setTimeout(() => {
-      window.location.href = 'formulaire.html';
-    }, 6000);
+      const formContainer = document.getElementById("form-container");
+      formContainer.classList.add("active"); // Ajoute la classe pour l'affichage
+    }, 16000);
   </script>
 
 </body>
