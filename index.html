@@ -18,45 +18,30 @@
       flex-direction: column;
     }
 
-    /* Logo animé */
-    #logo-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #f0f4f8;
-      animation: fade-in 3s ease-in, stay-visible 3s 3s forwards, fade-out 1s 6s forwards;
+    header {
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    #logo-container img {
-      width: 150px;
-      height: 150px;
+    header h1 {
+      font-size: 24px;
+      color: #333;
+      margin: 0;
     }
 
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+    header p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0 15px;
     }
 
-    @keyframes fade-out {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    /* Formulaire */
     #form-container {
-      display: none; /* Masqué initialement */
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
     }
 
     #form-container h2 {
@@ -128,12 +113,11 @@
 </head>
 <body>
 
-  <!-- Logo animé -->
-  <div id="logo-container">
-    <img src="Anil3D/Anil3DmapIcone.webp" alt="Anil 3D MAP Icon">
-  </div>
+  <header>
+    <h1>AYDA MAPS ANIL 3D MAP</h1>
+    <p>Bienvenue dans le monde des cartes numériques AYDA MAPS by VENTALIS</p>
+  </header>
 
-  <!-- Formulaire d'inscription -->
   <div id="form-container">
     <h2>S'inscrire pour accéder à la carte Anil 3D</h2>
     <form name="inscription" method="POST" id="google-form">
@@ -163,21 +147,16 @@
   </div>
 
   <script>
-    // Afficher le formulaire après 7 secondes (3s fade-in + 3s maintien + 1s fade-out)
-    setTimeout(() => {
-      document.getElementById("form-container").style.display = "block";
-    }, 7000);
-
-    // Validation du champ Douar
     const form = document.getElementById("google-form");
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      // Validation du champ Douar
       const douarInput = document.getElementById("douar").value.trim();
-      const validDouars = ["Anil", "ANIL", "anil", "أنيل", "انيل"];
+      const validDouars = ["Anil", "anil", "ANIL", "أنيل", "انيل"];
       if (!validDouars.includes(douarInput)) {
-        alert("Erreur : Les données sont incorrectes");
+        alert("Erreur : Les données sont incorrectes. Le Douar doit être 'Anil' (français) ou 'أنيل' / 'انيل' (arabe).");
         return; // Bloque la soumission du formulaire
       }
 
