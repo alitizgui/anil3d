@@ -18,12 +18,13 @@
 
     #logo-container {
       opacity: 0; /* Départ invisible */
-      animation: fade-in 4s ease-in, fade-out 3s 10s ease-in forwards; /* Fondu enchaîné */
+      animation: fade-in 4s ease-in, fade-out 4s 20s ease-in forwards; /* Fondu enchaîné */
     }
 
     #logo-container img {
-      width: 30vw; /* Ajuste la taille à 30% de la largeur de l'écran */
-      max-width: 300px; /* Taille maximale */
+        width: 40vw; /* Taille flexible 40% de la largeur de l'écran */
+      max-width: 500px; /* Taille maximale */
+      min-width: 300px; /* Taille minimale */
       height: auto; /* Conserve les proportions */
     }
 
