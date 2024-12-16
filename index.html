@@ -3,198 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYDA MAPS ANIL 3D MAP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>AYDA MAPS ANIL 3D</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8;
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
+      height: 100vh;
+      background-color: #f0f4f8;
+      font-family: 'Poppins', sans-serif;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
+    #logo-container {
+      opacity: 0; /* Départ invisible */
+      animation: fade-in 3s ease-in, fade-out 3s 3s ease-in forwards; /* Fondu enchaîné */
     }
 
-    header h1 {
-      font-size: 24px;
-      color: #333;
-      margin: 0;
+    #logo-container img {
+      width: 150px; /* Taille ajustée */
+      height: 150px;
     }
 
-    header p {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0 15px;
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
-    #form-container {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-
-    #form-container h2 {
-      margin-bottom: 20px;
-      color: #333;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    #form-container label {
-      display: block;
-      margin-bottom: 8px;
-      margin-left: 16px;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    #form-container input {
-      width: calc(100% - 32px);
-      padding: 12px;
-      margin: 8px auto 16px auto;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-      display: block;
-    }
-
-    #form-container button {
-      background: #007bff;
-      color: #fff;
-      padding: 12px;
-      width: calc(100% - 32px);
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 10px auto;
-      display: block;
-    }
-
-    #form-container button:hover {
-      background: #0056b3;
-    }
-
-    #shortcut {
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    #shortcut a {
-      text-decoration: none;
-      color: #007bff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #shortcut a:hover {
-      color: #0056b3;
-    }
-
-    #shortcut a img {
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>AYDA MAPS ANIL 3D MAP</h1>
-    <p>Bienvenue dans le monde des cartes numériques AYDA MAPS by VENTALIS</p>
-  </header>
-
-  <div id="form-container">
-    <h2>S'inscrire pour accéder à la carte Anil 3D</h2>
-    <form name="inscription" method="POST" id="google-form">
-      <label for="nom">Nom</label>
-      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
-
-      <label for="prenom">Prénom</label>
-      <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
-
-      <label for="telephone">Téléphone</label>
-      <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
-
-      <label for="douar">Douar</label>
-      <input type="text" id="douar" name="douar" placeholder="Entrez le nom du douar" required>
-
-      <button type="submit">S'inscrire</button>
-    </form>
-    <div id="shortcut">
-      <a href="validation_code.html">
-        <img src="https://img.icons8.com/ios-filled/50/007bff/enter-key.png" alt="Code">
-        Accès direct avec code
-      </a>
-    </div>
+  <!-- Conteneur de l'image animée -->
+  <div id="logo-container">
+    <img src="Anil3DmapIcone.webp" alt="Anil 3D Logo">
   </div>
 
   <script>
-    const form = document.getElementById("google-form");
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      // Validation du champ Douar
-      const douarInput = document.getElementById("douar").value.trim();
-      const validDouars = ["Anil", "anil", "ANIL", "أنيل", "انيل"];
-      if (!validDouars.includes(douarInput)) {
-        alert("Erreur : Les données sont incorrectes.");
-        return; // Bloque la soumission du formulaire
-      }
-
-      const formData = new FormData(form);
-
-      // Enregistrer les données dans Google Sheets via Apps Script
-      const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
-
-      try {
-        const response = await fetch(googleScriptURL, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (response.ok) {
-          // Générer le code du jour
-          const dayCodes = {
-            lundi: "lun1",
-            mardi: "mar2",
-            mercredi: "mer3",
-            jeudi: "jeu4",
-            vendredi: "ven5",
-            samedi: "sam6",
-            dimanche: "dim7",
-          };
-          const today = new Date().toLocaleString("fr-FR", { weekday: "long" }).toLowerCase();
-          const correctCode = dayCodes[today];
-
-          // Rediriger vers validation_code.html avec le code du jour
-          window.location.href = `validation_code.html?code=${correctCode}`;
-        } else {
-          alert("Erreur lors de l'enregistrement des données. Veuillez réessayer.");
-        }
-      } catch (error) {
-        console.error("Erreur lors de la soumission :", error);
-        alert("Une erreur est survenue. Veuillez réessayer.");
-      }
-    });
+    // Redirection automatique après 6 secondes
+    setTimeout(() => {
+      window.location.href = 'formulaire.html';
+    }, 6000);
   </script>
 
 </body>

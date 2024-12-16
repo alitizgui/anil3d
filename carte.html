@@ -56,6 +56,12 @@
 
   <div id="title">Ayda Maps 3D Interactive</div>
 
+  <!-- Audio intégré -->
+  <audio id="background-audio" loop>
+    <source src="son.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas l'audio.
+  </audio>
+
   <!-- popup -->
   <div id="popup">
     <div id="closebtn">&times;</div>
@@ -148,6 +154,13 @@
         gui = Q3D.gui;
 
     app.init(container); // initialize viewer
+
+    // Play audio automatically with 50% volume
+    const audio = document.getElementById("background-audio");
+    audio.volume = 0.5;
+    audio.play().catch(error => {
+      console.error("Lecture bloquée :", error);
+    });
 
     // load the scene
     app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
