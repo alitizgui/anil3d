@@ -54,7 +54,7 @@
     #form-container label {
       display: block;
       margin-bottom: 8px;
-      margin-left: 16px; /* Deux cases depuis le bord gauche */
+      margin-left: 16px;
       font-weight: bold;
       text-align: left;
     }
@@ -134,7 +134,7 @@
       <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
 
       <label for="douar">Douar</label>
-      <input type="text" id="douar" name="douar" placeholder="Entrez votre douar (Anil / أنيل / انيل)" required>
+      <input type="text" id="douar" name="douar" placeholder="Entrez le nom du douar" required>
 
       <button type="submit">S'inscrire</button>
     </form>
@@ -152,15 +152,15 @@
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const formData = new FormData(form);
-
       // Validation du champ Douar
-      const douarValue = form.getElementById("douar").value.trim().toLowerCase();
-      const validDouars = ["anil", "أنيل", "انيل"];
-      if (!validDouars.includes(douarValue)) {
-        alert("Erreur : Le Douar doit être Anil (français) ou أنيل / انيل (arabe).");
+      const douarInput = document.getElementById("douar").value.trim();
+      const validDouars = ["Anil", "anil", "أنيل", "انيل"];
+      if (!validDouars.includes(douarInput)) {
+        alert("Erreur : Les données sont incorrectes. Le Douar doit être 'Anil' (français) ou 'أنيل' / 'انيل' (arabe).");
         return; // Bloque la soumission du formulaire
       }
+
+      const formData = new FormData(form);
 
       // Enregistrer les données dans Google Sheets via Apps Script
       const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
