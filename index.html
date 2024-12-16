@@ -134,7 +134,7 @@
       <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
 
       <label for="douar">Douar</label>
-      <input type="text" id="douar" name="douar" placeholder="Entrez votre douar" required>
+      <input type="text" id="douar" name="douar" placeholder="Entrez votre douar (Anil / أنيل / انيل)" required>
 
       <button type="submit">S'inscrire</button>
     </form>
@@ -153,6 +153,14 @@
       event.preventDefault();
 
       const formData = new FormData(form);
+
+      // Validation du champ Douar
+      const douarValue = form.getElementById("douar").value.trim().toLowerCase();
+      const validDouars = ["anil", "أنيل", "انيل"];
+      if (!validDouars.includes(douarValue)) {
+        alert("Erreur : Le Douar doit être Anil (français) ou أنيل / انيل (arabe).");
+        return; // Bloque la soumission du formulaire
+      }
 
       // Enregistrer les données dans Google Sheets via Apps Script
       const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
