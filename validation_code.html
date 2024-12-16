@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validation Code d'Accès</title>
+  <title>AYDA MAPS ANIL 3D MAP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -11,135 +12,186 @@
       margin: 0;
       padding: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #333;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0 15px;
+    }
+
+    #logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(240, 244, 248, 0.9); /* Légèrement transparent */
+      animation: fade-in 3s ease-in, fade-out 1s 6s forwards;
+      z-index: 2;
+    }
+
+    #logo-container img {
+      width: 150px;
+      height: 150px;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
 
     #form-container {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+      display: none; /* Masqué initialement */
+      z-index: 1;
     }
 
     #form-container h2 {
       margin-bottom: 20px;
       color: #333;
       font-weight: 600;
+      text-align: center;
+    }
+
+    #form-container label {
+      display: block;
+      margin-bottom: 8px;
+      margin-left: 16px;
+      font-weight: bold;
+      text-align: left;
     }
 
     #form-container input {
-      width: calc(100% - 24px);
+      width: calc(100% - 32px);
       padding: 12px;
-      margin: 10px auto;
+      margin: 8px auto 16px auto;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
+      display: block;
     }
 
     #form-container button {
       background: #007bff;
       color: #fff;
       padding: 12px;
-      width: calc(100% - 24px);
+      width: calc(100% - 32px);
       border: none;
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 10px auto;
+      display: block;
     }
 
     #form-container button:hover {
       background: #0056b3;
     }
 
-    #provisional-code {
-      background-color: #f0f8ff;
-      padding: 10px;
-      border: 1px solid #007bff;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      font-weight: bold;
+    #shortcut {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    #shortcut a {
+      text-decoration: none;
+      color: #007bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #shortcut a:hover {
       color: #0056b3;
     }
 
-    #warning {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
+    #shortcut a img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
     }
   </style>
 </head>
 <body>
 
+  <header>
+    <h1>AYDA MAPS ANIL 3D MAP</h1>
+    <p>Bienvenue dans le monde des cartes numériques AYDA MAPS by VENTALIS</p>
+  </header>
+
+  <!-- Logo animé -->
+  <div id="logo-container">
+    <img src="Anil3D/Anil3DmapIcone.webp" alt="Anil 3D MAP Icon">
+  </div>
+
+  <!-- Formulaire d'inscription -->
   <div id="form-container">
-    <h2 id="dynamic-title">Validation du Code d'Accès</h2>
+    <h2>S'inscrire pour accéder à la carte Anil 3D</h2>
+    <form name="inscription" method="POST" id="google-form">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" required>
 
-    <div id="provisional-code" style="display: none;">
-    <span id="generated-code"></span>
-    </div>
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" required>
 
-    <form name="code" onsubmit="validateCode(event)">
-      <label for="code">Code d'accès</label>
-      <input type="text" id="code" name="code" placeholder="Entrez le code reçu" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
 
-      <button type="submit">Valider</button>
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" placeholder="Entrez votre téléphone" required>
+
+      <label for="douar">Douar</label>
+      <input type="text" id="douar" name="douar" placeholder="Entrez le nom du douar" required>
+
+      <button type="submit">S'inscrire</button>
     </form>
-
-    <div id="warning" style="display: none;">
-      Vous n'avez pas de code provisoire. Veuillez entrer le code reçu par message.
+    <div id="shortcut">
+      <a href="validation_code.html">
+        <img src="https://img.icons8.com/ios-filled/50/007bff/enter-key.png" alt="Code">
+        Accès direct avec code
+      </a>
     </div>
   </div>
 
   <script>
-    // Fonction pour récupérer les paramètres de l'URL
-    function getQueryParam(param) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(param);
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const code = getQueryParam("code");
-
-      if (code) {
-        document.getElementById("dynamic-title").textContent = "Code provisoire";
-        document.getElementById("provisional-code").style.display = "block";
-        document.getElementById("generated-code").textContent = code;
-      } else {
-        document.getElementById("dynamic-title").textContent = "Validation du Code d'Accès";
-        document.getElementById("warning").style.display = "block";
-      }
-    });
-
-    function validateCode(event) {
-      event.preventDefault();
-
-      const code = document.getElementById('code').value.trim().toLowerCase();
-      const dayCodes = {
-        lundi: 'lun1',
-        mardi: 'mar2',
-        mercredi: 'mer3',
-        jeudi: 'jeu4',
-        vendredi: 'ven5',
-        samedi: 'sam6',
-        dimanche: 'dim7'
-      };
-
-      const today = new Date().toLocaleString('fr-FR', { weekday: 'long' }).toLowerCase();
-      const correctCode = dayCodes[today];
-
-      if (code === correctCode) {
-        sessionStorage.setItem("accessGranted", "true");
-        window.location.href = 'carte.html';
-      } else {
-        alert('Code incorrect. Veuillez réessayer.');
-      }
-    }
+    // Afficher le formulaire après 7 secondes (3s fade-in + 3s maintien + 1s fade-out)
+    setTimeout(() => {
+      document.getElementById("form-container").style.display = "block";
+    }, 7000);
   </script>
 
 </body>
