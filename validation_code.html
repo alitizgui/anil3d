@@ -81,7 +81,7 @@
     <h2 id="dynamic-title">Validation du Code d'Accès</h2>
 
     <div id="provisional-code" style="display: none;">
-      Vtre code provisoire : <span id="generated-code"></span>
+    <span id="generated-code"></span>
     </div>
 
     <form name="code" onsubmit="validateCode(event)">
@@ -107,7 +107,7 @@
       const code = getQueryParam("code");
 
       if (code) {
-        document.getElementById("dynamic-title").textContent = "Votre code provisoire";
+        document.getElementById("dynamic-title").textContent = "Code provisoire";
         document.getElementById("provisional-code").style.display = "block";
         document.getElementById("generated-code").textContent = code;
       } else {
