@@ -147,6 +147,21 @@
       lookAt: {x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938},
       pos: {x: 496021.26971992507, y: 3291540.6997546116, z: 2500.5565223819008}
     };
+
+// Rayon (distance entre la caméra et lookAt)
+const deltaX = initialPos.x - lookAt.x;
+const deltaZ = initialPos.z - lookAt.z;
+const radius = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+
+// Nouvelles coordonnées après rotation
+const newX = lookAt.x + Math.cos(angle) * radius;
+const newZ = lookAt.z + Math.sin(angle) * radius;
+
+// Mettre à jour la position de la caméra
+Q3D.Config.viewpoint = {
+  lookAt: lookAt,
+  pos: {x: newX, y: initialPos.y, z: newZ}
+};
     Q3D.Config.localMode = true;
 
     var container = document.getElementById("view"),
