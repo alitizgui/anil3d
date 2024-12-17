@@ -19,15 +19,6 @@
       color: black;
       opacity: 0.8;
     }
-    #countdown {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      color: red;
-      z-index: 1000;
-    }
     #findLocation {
       margin: 10px;
       display: none; /* Masqué au départ */
@@ -64,9 +55,6 @@
   </div>
 
   <div id="title">Ayda Maps 3D Interactive</div>
-
-  <!-- Compte à rebours -->
-  <div id="countdown">10</div>
 
   <!-- Audio intégré -->
   <audio id="background-audio" loop>
@@ -162,203 +150,63 @@
     Q3D.Config.localMode = true;
 
     var container = document.getElementById("view"),
-        app = Q3D.application;
-        <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Anil3d</title>
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <base target="_blank">
-  <link rel="stylesheet" type="text/css" href="/Qgis2threejs.css">
-  <style type="text/css">
-    #popup, #header, #layerpanel {
-      left: 36px;
-    }
-    #title {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 12px;
-      color: black;
-      opacity: 0.8;
-    }
-    #countdown {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      color: red;
-      z-index: 1000;
-    }
-    #findLocation {
-      margin: 10px;
-      display: none; /* Masqué au départ */
-    }
-    #findLocationTitle {
-      background-color: yellow;
-      padding: 5px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    #findLocationInput {
-      margin: 10px;
-    }
-  </style>
-  <script src="/threejs/three.min.js"></script>
-  <script src="/threejs/OrbitControls.js"></script>
-  <script src="/threejs/ViewHelper.js"></script>
-  <script src="/Qgis2threejs.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
-</head>
-<body>
-
-  <!-- LIGNE AJOUTÉE : Vérification de l'accès -->
-  <script>
-    if (!sessionStorage.getItem("accessGranted")) {
-      window.location.href = 'index.html';
-    }
-  </script>
-  <!-- Fin de la LIGNE AJOUTÉE -->
-
-  <div id="view">
-    <div id="northarrow"></div>
-    <div id="navigation"></div>
-  </div>
-
-  <div id="title">Ayda Maps 3D Interactive</div>
-
-  <!-- Compte à rebours -->
-  <div id="countdown">10</div>
-
-  <!-- Audio intégré -->
-  <audio id="background-audio" loop>
-    <source src="son.mp3" type="audio/mpeg">
-    Votre navigateur ne supporte pas l'audio.
-  </audio>
-
-  <!-- popup -->
-  <div id="popup">
-    <div id="closebtn">&times;</div>
-    <div id="popupbar"></div>
-    <div id="popupbody">
-      <div id="popupcontent"></div>
-      <div id="queryresult">
-        <table id="qr_coords_table">
-          <caption>Clicked coordinates <div id="zoomtopoint" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_coords"></td></tr>
-        </table>
-        <table id="qr_layername_table">
-          <caption>Layer <div id="zoomtolayer" class="action-zoom zoombtn"></div></caption>
-          <tr><td id="qr_layername"></td></tr>
-        </table>
-        <table id="qr_attrs_table">
-          <caption>Attributes</caption>
-        </table>
-        <div id="orbitbtn" class="action-btn action-orbit">Orbit</div>
-        <div id="measurebtn" class="action-btn">Measure distance</div>
-      </div>
-
-      <!-- Find Location Section (Masqué par défaut) -->
-      <div id="findLocation">
-        <div id="findLocationTitle">Find Location</div>
-        <label for="findLocationInput">Enter coordinates (X, Y):</label>
-        <input type="text" id="findLocationInput" placeholder="X, Y" />
-        <button id="findLocationBtn">Go</button>
-      </div>
-
-      <div id="pageinfo">
-        <h1>Current View URL</h1>
-        <div><input id="urlbox" type="text"></div>
-        <h1>Usage</h1>
-        <table id="usage">
-          <tr><td colspan="2" class="star">Mouse</td></tr>
-          <tr><td>Left button + Move</td><td>Orbit</td></tr>
-          <tr><td>Mouse Wheel</td><td>Zoom</td></tr>
-          <tr><td>Right button + Move</td><td>Pan</td></tr>
-          <tr><td colspan="2" class="star">Keys</td></tr>
-          <tr><td>Arrow keys</td><td>Move Horizontally</td></tr>
-          <tr><td>Shift + Arrow keys</td><td>Orbit</td></tr>
-          <tr><td>Ctrl + Arrow keys</td><td>Rotate</td></tr>
-          <tr><td>Shift + Ctrl + Up / Down</td><td>Zoom In / Out</td></tr>
-          <tr><td>L</td><td>Toggle Label Visibility</td></tr>
-          <tr><td>R</td><td>Start / Stop Orbit Animation</td></tr>
-          <tr><td>W</td><td>Wireframe Mode</td></tr>
-          <tr><td>Shift + R</td><td>Reset Camera Position</td></tr>
-          <tr><td>Shift + S</td><td>Save Image</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- progress bar -->
-  <div id="progress"><div id="progressbar"></div></div>
-
-  <!-- menu -->
-  <div id="toolbtns">
-    <div id="layerbtn"></div>
-    <div id="animbtn" class="hidden"></div>
-    <div id="infobtn"></div>
-  </div>
-
-  <!-- header and footer -->
-  <div id="header"></div>
-  <div id="footer"></div>
-
-  <!-- layer panel -->
-  <div id="layerpanel">
-    <div id="layerlist"></div>  <!-- Liste des couches -->
-  </div>
-
-  <!-- animation -->
-  <div id="narrativebox" class="ef1">
-    <div id="narbody"></div>
-    <div id="nextbtn"></div>
-  </div>
-
-  <script>
-    Q3D.Config.allVisible = true;
-    Q3D.Config.viewpoint = {
-      lookAt: {x: 497938.5942950403, y: 3291930.5088654812, z: 1034.6351928710938},
-      pos: {x: 496021.26971992507, y: 3291540.6997546116, z: 1316.5565223819008}
-    };
-    Q3D.Config.localMode = true;
-
-    var container = document.getElementById("view"),
-        app = Q3D.application;
+        app = Q3D.application,
+        gui = Q3D.gui;
 
     app.init(container); // initialize viewer
 
-    // Lancer l'animation Orbit et le compte à rebours
-    app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
-      app.start();
-      startOrbitAnimation();
-    });
-
-    // Compte à rebours et animation Orbit
-    function startOrbitAnimation() {
-      let countdown = 10;
-      const countdownElement = document.getElementById("countdown");
-      app.controls.autoRotate = true; // Activer l'orbite automatique
-
-      const interval = setInterval(() => {
-        countdown--;
-        countdownElement.textContent = countdown;
-
-        if (countdown <= 0) {
-          clearInterval(interval);
-          app.controls.autoRotate = false; // Arrêter l'orbite
-          countdownElement.style.display = "none"; // Cacher le compte à rebours
-        }
-      }, 1000);
-    }
-
-    // Audio au démarrage
+    // Play audio automatically with 50% volume
     const audio = document.getElementById("background-audio");
     audio.volume = 0.3;
-    audio.play().catch(error => console.error("Erreur audio :", error));
+    audio.play().catch(error => {
+      console.error("Lecture bloquée :", error);
+    });
+
+    // load the scene
+    app.loadSceneFile("/data/Anil3d/scene.js", function (scene) {
+      app.start();
+    });
+
+    // Handle right-click to show the "Find Location" input field
+    container.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+      var findLocationDiv = document.getElementById("findLocation");
+      findLocationDiv.style.display = 'block';  // Show the input field when right-click happens
+    });
+
+    // Function to move the camera to a specific location
+    function flyToLocation(x, y) {
+      const camera = app.camera;
+      const controls = app.controls;
+
+      const target = new THREE.Vector3(x, y, 0); // Replace 0 with the appropriate Z value if needed
+      const zoomDistance = 500; // Adjust the zoom distance as needed
+
+      const cameraPosition = new THREE.Vector3(x, y, zoomDistance);
+
+      camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+      controls.target.set(target.x, target.y, target.z);
+      controls.update();
+
+      app.render(); // Force the scene to render
+    }
+
+    // Handle the "Go" button to find the location
+    document.getElementById("findLocationBtn").addEventListener('click', function() {
+      const input = document.getElementById("findLocationInput").value;
+      const coords = input.split(',').map(coord => parseFloat(coord.trim()));
+
+      if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+        const x = coords[0];
+        const y = coords[1];
+
+        flyToLocation(x, y);
+
+        document.getElementById("qr_coords").textContent = `X: ${x}, Y: ${y}`;
+      } else {
+        alert("Veuillez entrer des coordonnées valides au format : X, Y.");
+      }
+    });
   </script>
 </body>
-</html>     
+</html>
