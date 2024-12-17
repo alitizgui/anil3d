@@ -12,54 +12,32 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f0f4f8;
+      background-color: #e0e0e0;
       font-family: 'Poppins', sans-serif;
     }
 
     #logo-container {
-      opacity: 0; /* Départ invisible */
-      animation: fade-in 10s ease-in, fade-out 0s 30s ease-in forwards; /* Fondu enchaîné */
+      opacity: 1; /* Toujours visible */
     }
 
     #logo-container img {
-      width: 40vw; /* Taille flexible 40% de la largeur de l'écran */
-      max-width: 600px; /* Taille maximale */
-      min-width: 300px; /* Taille minimale */
+      width: 700px; /* Taille maximale fixée */
       height: auto; /* Conserve les proportions */
-    }
-
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes fade-out {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Conteneur de l'image animée -->
+  <!-- Conteneur de l'image -->
   <div id="logo-container">
     <img src="Anil3DmapIcone.webp" alt="Anil 3D Logo">
   </div>
 
   <script>
-    // Redirection automatique
+    // Redirection automatique après 10 secondes
     setTimeout(() => {
       window.location.href = 'formulaire.html';
-    }, 6000);
+    }, 10000); // 10 secondes
   </script>
 
 </body>
