@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Animation Orbit Anil3D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #f0f4f8;
+    }
+    #countdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: red;
+      z-index: 1000;
+    }
+  </style>
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- Compte à rebours -->
+  <div id="countdown">10</div>
+
+  <script>
+    // Initialisation de la scène THREE.js
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Contrôles d'orbite
+    let controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.autoRotate = true; // Activer l'orbite automatique
+    controls.autoRotateSpeed = 2.0; // Vitesse de rotation
+
+    // Charger la scène depuis scene.js
+    let loader = new THREE.ObjectLoader();
+    loader.load('scene.js', function (loadedScene) {
+      scene = loadedScene;
+      animate();
+    });
+
+    // Position de la caméra
+    camera.position.set(0, 50, 100);
+    controls.update();
+
+    // Animation de la scène
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // Compte à rebours et redirection
+    let countdown = 10;
+    const countdownElement = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      countdown--;
+      countdownElement.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = 'carte.html'; // Redirection vers la page principale
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
