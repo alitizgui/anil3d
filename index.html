@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayda Maps - Launch</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        #container {
+            position: relative;
+            text-align: center;
+        }
+
+        #text {
+            font-size: 2rem;
+            text-align: center;
+            opacity: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        #text span.title {
+            font-size: 6rem;
+            color: white;
+        }
+
+        #text span.amazigh {
+            font-size: 3rem;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        #sphere {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2), rgba(139, 0, 0, 1));
+            border: 1px solid rgba(255, 0, 0, 0.8);
+            background-clip: padding-box;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes gridGlow {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        #sphere {
+            animation: gridGlow 2s infinite;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+        <div id="sphere"></div>
+        <div id="text">
+            <span class="title">Ayda Maps</span><br>
+            <span class="amazigh">ⴰⵢⴷⴰ ⵎⴰⴱⵙ</span>
+            Application de navigation par satellites<br>(en douceur)<br>Bientôt disponible
+        </div>
+    </div>
+
+    <script>
+        // Display text and sphere for 6 seconds, then apply fade-out animation
+        setTimeout(() => {
+            const textElement = document.getElementById('text');
+            const sphereElement = document.getElementById('sphere');
+
+            textElement.style.animation = 'fadeOut 3s forwards';
+            sphereElement.style.animation = 'fadeOut 3s forwards';
+        }, 6000);
+
+        // Remove elements after fade-out animation completes
+        setTimeout(() => {
+            const container = document.getElementById('container');
+            container.remove();
+        }, 9000);
+
+        // Redirect to formulaire.html after 10 seconds
+        setTimeout(() => {
+            window.location.href = 'formulaire.html';
+        }, 10000);
+    </script>
+</body>
+</html>
