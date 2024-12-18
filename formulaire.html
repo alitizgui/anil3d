@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AYDA MAPS ANIL 3D MAP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -21,18 +21,25 @@
     header {
       text-align: center;
       margin-bottom: 20px;
+      background-color: #87ceeb; /* Bleu ciel */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
     }
 
     header h1 {
-      font-size: 24px;
-      color: #333;
+      font-family: 'Orbitron', sans-serif; /* Police futuriste */
+      font-size: 36px; /* Taille plus grande */
+      color: #fff;
       margin: 0;
     }
 
     header p {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0 15px;
+      font-size: 16px;
+      color: #fff;
+      margin: 10px 0 0;
     }
 
     #form-container {
@@ -145,57 +152,6 @@
       </a>
     </div>
   </div>
-
-  <script>
-    const form = document.getElementById("google-form");
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      // Validation du champ Douar
-      const douarInput = document.getElementById("douar").value.trim();
-      const validDouars = ["Anil", "anil", "ANIL", "أنيل", "انيل"];
-      if (!validDouars.includes(douarInput)) {
-        alert("Erreur : Les données sont incorrectes.");
-        return; // Bloque la soumission du formulaire
-      }
-
-      const formData = new FormData(form);
-
-      // Enregistrer les données dans Google Sheets via Apps Script
-      const googleScriptURL = "https://script.google.com/macros/s/AKfycbx-us9srf3jowIVbXWPBlXozV7DFm_jOBP9VN-dY54CemGPciEBqXZL5U0IBMQz6tI5Hg/exec";
-
-      try {
-        const response = await fetch(googleScriptURL, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (response.ok) {
-          // Générer le code du jour
-          const dayCodes = {
-            lundi: "lun1",
-            mardi: "mar2",
-            mercredi: "mer3",
-            jeudi: "jeu4",
-            vendredi: "ven5",
-            samedi: "sam6",
-            dimanche: "dim7",
-          };
-          const today = new Date().toLocaleString("fr-FR", { weekday: "long" }).toLowerCase();
-          const correctCode = dayCodes[today];
-
-          // Rediriger vers validation_code.html avec le code du jour
-          window.location.href = `validation_code.html?code=${correctCode}`;
-        } else {
-          alert("Erreur lors de l'enregistrement des données. Veuillez réessayer.");
-        }
-      } catch (error) {
-        console.error("Erreur lors de la soumission :", error);
-        alert("Une erreur est survenue. Veuillez réessayer.");
-      }
-    });
-  </script>
 
 </body>
 </html>
